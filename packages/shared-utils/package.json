@@ -1,0 +1,16 @@
+{
+  "name": "@takeover/shared-utils",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "lib/index.js",
+  "types": "types/index.d.ts",
+  "devDependencies": {
+    "@types/chrome": "^0.0.197",
+    "@types/node": "^18.0.1"
+  },
+  "scripts": {
+    "watch": "tsc -w",
+    "build": "rimraf lib types && tsc"
+  }
+}

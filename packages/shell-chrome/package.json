@@ -1,0 +1,23 @@
+{
+  "name": "@takeover/shell-chrome",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "rimraf build && webpack --config webpack.config.js",
+    "watch": "vite build --watch"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Gj",
+    "email": "gongjie0422@163.com"
+  },
+  "dependencies": {
+    "@takeover/shared-utils": "workspace:^1.0.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}

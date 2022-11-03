@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Takeover browser storage",
+  "version": "1.0.0",
+  "description": "浏览器扩展 Storage 存储区的操作面板",
+  "author": "Gj",
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "icons": {
+    "64": "icons/64.png",
+    "128": "icons/128.png"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "service_worker.js"
+  },
+  "action": {
+    "default_title": "Takeover browser storage",
+    "default_popup": "popups/index.html",
+    "default_icon": "icons/128.png"
+  },
+  "devtools_page": "devtools/devtools.html",
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "document.js",
+        "dashboard/dashboard.umd.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

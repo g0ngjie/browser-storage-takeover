@@ -9,6 +9,8 @@ const readDirGlob = require('readdir-glob')
 const INCLUDE_GLOBS = [
   'icons/**',
   'popups/**',
+  'render_devtools/**',
+  'shell-devtools/**',
   'content.js',
   'document.js',
   'manifest.json',

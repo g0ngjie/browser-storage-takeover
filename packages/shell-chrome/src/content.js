@@ -3,12 +3,12 @@ script.setAttribute("type", "module");
 script.setAttribute("src", chrome.runtime.getURL("document.js"));
 document.documentElement.appendChild(script);
 
-initStorage().then(() => {
+// initStorage().then(() => {
 
-    script.addEventListener("load", () => {
+//     script.addEventListener("load", () => {
 
-    });
+//     });
 
-})
+// })
 
 

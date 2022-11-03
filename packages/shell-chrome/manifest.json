@@ -34,7 +34,7 @@
     "default_popup": "popups/index.html",
     "default_icon": "icons/128.png"
   },
-  "devtools_page": "devtools/devtools.html",
+  "devtools_page": "render_devtools/index.html",
   "web_accessible_resources": [
     {
       "resources": [

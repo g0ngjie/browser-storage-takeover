@@ -1,7 +1,7 @@
 const { resolve } = require('path')
 const CopyPlugin = require("copy-webpack-plugin");
 
-const staticFiles = ['manifest.json', 'icons/*', 'popups/*'].map(file => {
+const staticFiles = ['manifest.json', 'icons/*', 'popups/*', 'render_devtools/*'].map(file => {
   return {
     from: file,
     to: '.'

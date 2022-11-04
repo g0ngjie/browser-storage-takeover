@@ -30,8 +30,6 @@
     "service_worker": "service_worker.js"
   },
   "action": {
-    "default_title": "Takeover browser storage",
-    "default_popup": "popups/index.html",
     "default_icon": "icons/128.png"
   },
   "devtools_page": "render_devtools/index.html",

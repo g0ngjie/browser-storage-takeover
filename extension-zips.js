@@ -9,7 +9,6 @@ const PKG = require('./package.json')
 
 const INCLUDE_GLOBS = [
   'icons/**',
-  'popups/**',
   'render_devtools/**',
   'shell-devtools/**',
   'content.js',

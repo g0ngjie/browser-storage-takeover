@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "pnpm -C ./packages/shell-popup dev",
+    "dev": "pnpm -C ./packages/shell-components dev",
     "build": "run-s build:all pkg",
     "build:all": "pnpm -F \"./packages/**\" build",
     "pkg": "# cp -r ./packages/shell-devtools/dist ./packages/shell-chrome/build/shell-devtools",

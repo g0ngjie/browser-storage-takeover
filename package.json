@@ -6,7 +6,7 @@
     "dev": "pnpm -C ./packages/shell-components dev",
     "build": "run-s build:all pkg",
     "build:all": "pnpm -F \"./packages/**\" build",
-    "pkg": "# cp -r ./packages/shell-devtools/dist ./packages/shell-chrome/build/shell-devtools",
+    "pkg": "cp -r ./packages/shell-components/dist ./packages/shell-chrome/build/components",
     "zip": "node ./extension-zips.js",
     "preinstall": "npx only-allow pnpm"
   },

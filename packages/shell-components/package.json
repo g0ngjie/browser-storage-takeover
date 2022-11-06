@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@takeover/shared-utils": "workspace:^1.0.0",
+    "@vueuse/core": "^9.4.0",
     "vue": "^3.2.41"
   },
   "devDependencies": {

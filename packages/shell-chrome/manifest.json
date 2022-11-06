@@ -37,7 +37,7 @@
     {
       "resources": [
         "document.js",
-        "dashboard/dashboard.umd.js"
+        "components/*"
       ],
       "matches": [
         "<all_urls>"

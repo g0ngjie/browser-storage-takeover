@@ -3,11 +3,13 @@ import { NDescriptions, NDescriptionsItem, NButton, NSwitch } from "naive-ui";
 </script>
 
 <template>
-  <NButton type="success">测试</NButton>
+  <div style="margin-top: 100px">
+    <NButton type="success">测试dasdfasdf</NButton>
+  </div>
 </template>
 
 <style scoped>
 body {
-    background-color: red;
+  background-color: red;
 }
 </style>

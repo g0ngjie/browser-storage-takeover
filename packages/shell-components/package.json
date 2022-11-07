@@ -11,6 +11,7 @@
   "dependencies": {
     "@takeover/shared-utils": "workspace:^1.0.0",
     "@vueuse/core": "^9.4.0",
+    "dayjs": "^1.11.6",
     "vue": "^3.2.41"
   },
   "devDependencies": {

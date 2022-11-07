@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { NModal, NCard } from "naive-ui";
-import { onMounted, ref } from "vue";
+import { NModal, NTabs, NTabPane } from "naive-ui";
+import { NConfigProvider } from "naive-ui";
+import { computed, onMounted, ref } from "vue";
 import { useLocalStorage, useStorage } from "@vueuse/core";
+import { useTabChange, useTheme, useThemeOverrides } from "./hooks";
+import GlobalData from "./global.vue";
+import LocalData from "./local.vue";
 
 const showModal = ref(false);
 
-const val = Object.values(localStorage).map(target => target)
+// 主题
+const theme = useTheme();
+// ui样式覆盖
+const themeOverrides = useThemeOverrides();
 
 onMounted(() => {
   showModal.value = true;
@@ -13,22 +20,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <n-modal v-model:show="showModal">
-    <n-card
-      style="width: 600px"
-      title="模态框"
-      size="huge"
+  <NConfigProvider :theme="theme" :theme-overrides="themeOverrides">
+    <NModal
+      v-model:show="showModal"
+      title="Browser Storage Takeover"
+      style="width: 90%; margin-top: 10px"
+      :maskClosable="false"
       :close-on-esc="false"
+      size="small"
+      preset="card"
     >
-      <template #header-extra> 噢！ </template>
-      {{ val }}
-      <template #footer> 尾部 </template>
-    </n-card>
-  </n-modal>
+      <NTabs size="small" type="line" animated @update:value="useTabChange">
+        <NTabPane name="local" tab="本地"><LocalData /></NTabPane>
+        <NTabPane name="global" tab="贮存"><GlobalData /></NTabPane>
+      </NTabs>
+    </NModal>
+  </NConfigProvider>
 </template>
-
-<style scoped>
-body {
-  background-color: red;
-}
-</style>

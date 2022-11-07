@@ -1,8 +1,10 @@
-import { useStorage } from "@vueuse/core";
+import { StorageSerializers, useLocalStorage, useSessionStorage, useStorage } from "@vueuse/core";
 import { computed } from "vue";
 import { useOsTheme, darkTheme } from "naive-ui";
 import type { GlobalThemeOverrides } from "naive-ui";
 // import { useChrome } from "@takeover/shared-utils";
+
+export type StorageType = 'local' | 'session'
 
 type TabName = 'global' | 'local'
 export function useTabChange(name: TabName) {
@@ -35,4 +37,43 @@ export function useThemeOverrides() {
         },
     }
     return themeOverrides
+}
+
+export type StorageMapping<T extends StorageType = StorageType> = {
+    [key in T]: { [key: string]: any }
+}
+
+// 初始化本地数据
+export function useInitStorage() {
+    const storeMapping: StorageMapping = {
+        local: {},
+        session: {}
+    }
+    Object.keys(localStorage).forEach(key => {
+        storeMapping['local'][key] = useLocalStorage(key, localStorage.getItem(key), {
+            serializer: StorageSerializers.any
+        })
+    })
+    Object.keys(sessionStorage).forEach(key => {
+        storeMapping['session'][key] = useSessionStorage(key, sessionStorage.getItem(key), {
+            serializer: StorageSerializers.any
+        })
+    })
+    return storeMapping
+}
+
+// 获取本地数据
+export function useStorageKeys(type: StorageType = 'local') {
+    const targetType = {
+        local: localStorage,
+        session: sessionStorage
+    }
+    const keys = Object.keys(targetType[type])
+        .map(key => {
+            return {
+                key,
+                label: key,
+            }
+        })
+    return keys
 }

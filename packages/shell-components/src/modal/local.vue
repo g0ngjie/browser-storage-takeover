@@ -39,11 +39,20 @@ const options: { label: string; value: StorageType }[] = [
 
 // 菜单
 const menuOptions = computed(() => useStorageKeys(currentType.value));
+
+const btnTxt = ref("贮存");
+const btnLoading = ref(false);
 // 存储
 const handleSave = () => {
   if (!currentKey.value) return;
   const current = storageData.value[currentType.value][currentKey.value];
   useGlobal.save(currentKey.value, current);
+  btnTxt.value = "Ok !";
+  btnLoading.value = true;
+  setTimeout(() => {
+    btnTxt.value = "贮存";
+    btnLoading.value = false;
+  }, 500);
 };
 
 // 切换源
@@ -88,12 +97,13 @@ onMounted(() => {
     <NLayout>
       <NLayoutHeader bordered style="padding: 5px; padding-left: 10px">
         <NButton
+          :loading="btnLoading"
           :disabled="!currentKey"
           secondary
           size="small"
           type="primary"
           @click="handleSave"
-          >贮存</NButton
+          >{{ btnTxt }}</NButton
         >
       </NLayoutHeader>
       <NLayoutContent content-style="padding: 5px; padding-left: 10px;">

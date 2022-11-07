@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { NDataTable, NButton } from "naive-ui";
 import type { DataTableColumns } from "naive-ui";
-import { h, onMounted, ref } from "vue";
+import { computed, h, ref } from "vue";
 import dayjs from "dayjs";
-import { GlobalData, useGlobal } from "./hooks";
-
-const emit = defineEmits(["use"]);
+import {
+  currentGlobalData,
+  GlobalData,
+  replaceCurrentKV,
+  useGlobal,
+} from "./hooks";
 
 const createColumns = ({
-  play,
+  useFn,
+  rmFn,
 }: {
   useFn: (row: GlobalData) => void;
   rmFn: (row: GlobalData) => void;
@@ -66,17 +70,14 @@ const createColumns = ({
   ];
 };
 
-const data = ref<GlobalData[]>([]);
-
-onMounted(async () => {
-  const dataMap = await useGlobal.get();
-  data.value = Object.values(dataMap || {});
+const data = computed(() => {
+  useGlobal.get();
+  return Object.values(currentGlobalData.value || {});
 });
 
 const columns = createColumns({
   useFn(row: GlobalData) {
-    console.log("[debug]row:", row);
-    emit.use(row);
+    replaceCurrentKV(row);
   },
   rmFn(row: GlobalData) {
     useGlobal.remove(row.key);

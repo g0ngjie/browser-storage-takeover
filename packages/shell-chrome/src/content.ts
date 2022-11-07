@@ -42,20 +42,29 @@ initStorage().then(() => {
         NoticeKey.CONTENT_DOCUMENT,
         function (event) {
             const customEvent = event as CustomEvent
-            console.log("[debug]customEvent:", customEvent.detail)
+            if (customEvent.detail.to !== 'content') return
             const maps = getStorage(StorageKey.GLOBAL_KEY, {})
+            const target = customEvent.detail.value
             switch (customEvent.detail.type) {
                 case "save":
-                    const target = customEvent.detail.value
                     maps[`${target.type}_${target.key}`] = target
                     setStorage(StorageKey.GLOBAL_KEY, maps)
                     break;
                 case "get":
-                    if (customEvent.detail.fn) customEvent.detail.fn(maps)
+                    window.dispatchEvent(
+                        new CustomEvent(NoticeKey.CONTENT_DOCUMENT, {
+                            detail: { to: 'document', value: maps },
+                        })
+                    );
                     break;
                 case "remove":
                     delete maps[`${target.type}_${target.key}`]
                     setStorage(StorageKey.GLOBAL_KEY, maps)
+                    window.dispatchEvent(
+                        new CustomEvent(NoticeKey.CONTENT_DOCUMENT, {
+                            detail: { to: 'document', value: maps },
+                        })
+                    );
                     break;
             }
         },

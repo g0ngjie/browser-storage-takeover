@@ -55,13 +55,14 @@ export function useInitStorage() {
     return storeMapping
 }
 
+const typeMapping = {
+    local: localStorage,
+    session: sessionStorage
+}
+
 // 获取本地数据
 export function useStorageKeys(type: StorageType = 'local') {
-    const targetType = {
-        local: localStorage,
-        session: sessionStorage
-    }
-    const keys = Object.keys(targetType[type])
+    const keys = Object.keys(typeMapping[type])
         .map(key => {
             return {
                 key,
@@ -79,46 +80,51 @@ export type GlobalData = {
 };
 
 function sendMsg(
-    key: 'save' | 'get' | 'remove',
-    target?: {
-        value?: GlobalData,
-        id?: string,
-        fn?: (data: { [key: string]: GlobalData }) => void
-    }
+    type: 'save' | 'get' | 'remove',
+    target?: GlobalData
 ) {
     window.dispatchEvent(
         new CustomEvent(NoticeKey.CONTENT_DOCUMENT, {
-            detail: { key, value: target?.value, fn: target?.fn },
+            detail: { to: 'content', type, value: target },
         })
     );
+}
+
+export const currentGlobalData = ref<{ [key: string]: GlobalData }>({})
+
+window.addEventListener(NoticeKey.CONTENT_DOCUMENT, function (event) {
+    const customEvent = event as CustomEvent
+    if (customEvent.detail.to !== 'document') return
+    const data = customEvent.detail
+    currentGlobalData.value = data?.value
+})
+
+// 替换current 数据
+export function replaceCurrentKV(data: GlobalData) {
+    // 获取共享数据
+    const getGlobalData = currentGlobalData.value[`${currentType.value}_${data.key}`]
+    if (getGlobalData.value) {
+        const state = useStorage(data.key, getGlobalData.value, typeMapping[currentType.value])
+        state.value = getGlobalData.value
+    }
 }
 
 export const useGlobal = {
     // 缓存共享实例
     save(key: GlobalData['key'], value: GlobalData['value']) {
         sendMsg('save', {
-            value: {
-                key,
-                value,
-                type: currentType.value,
-                createAt: Date.now().toString(),
-            }
+            key,
+            value,
+            type: currentType.value,
+            createAt: Date.now().toString(),
         })
     },
     // 获取缓存共享实例
-    get(): Promise<{ [key: string]: GlobalData }> {
-        return new Promise(resolve => {
-            sendMsg('get', {
-                fn: (data) => {
-                    resolve(data)
-                }
-            })
-        })
+    get() {
+        sendMsg('get')
     },
     // 删除共享实例
     remove(key: GlobalData['key']) {
-        sendMsg('remove', {
-            value: { type: currentType.value, key, value: null }
-        })
+        sendMsg('remove', { type: currentType.value, key, value: null })
     }
 }

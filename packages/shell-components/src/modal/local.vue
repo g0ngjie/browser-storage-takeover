@@ -41,8 +41,15 @@ const options: { label: string; value: StorageType }[] = [
 const menuOptions = computed(() => useStorageKeys(currentType.value));
 // 存储
 const handleSave = () => {
+  if (!currentKey.value) return;
   const current = storageData.value[currentType.value][currentKey.value];
   useGlobal.save(currentKey.value, current);
+};
+
+// 切换源
+const handleSelect = (value: StorageType) => {
+  currentType.value = value;
+  showJsonStr.value = "";
 };
 
 onMounted(() => {
@@ -63,7 +70,7 @@ onMounted(() => {
       <NSpace vertical>
         <NSelect
           v-model:value="defaultValue"
-          @update:value="(value) => (currentType = value)"
+          @update:value="handleSelect"
           size="small"
           style="width: 150px"
           :options="options"
@@ -80,7 +87,12 @@ onMounted(() => {
     </NLayoutSider>
     <NLayout>
       <NLayoutHeader bordered style="padding: 5px; padding-left: 10px">
-        <NButton secondary size="small" type="primary" @click="handleSave"
+        <NButton
+          :disabled="!currentKey"
+          secondary
+          size="small"
+          type="primary"
+          @click="handleSave"
           >贮存</NButton
         >
       </NLayoutHeader>

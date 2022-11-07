@@ -1,29 +1,28 @@
 <script setup lang="ts">
 import { NDataTable, NButton } from "naive-ui";
 import type { DataTableColumns } from "naive-ui";
-import { h } from "vue";
+import { h, onMounted, ref } from "vue";
 import dayjs from "dayjs";
+import { GlobalData, useGlobal } from "./hooks";
 
-type GlobalData = {
-  target: "local" | "session";
-  key: string;
-  value: any;
-  createAt: string;
-};
+const emit = defineEmits(["use"]);
+
 const createColumns = ({
   play,
 }: {
-  play: (row: GlobalData) => void;
+  useFn: (row: GlobalData) => void;
+  rmFn: (row: GlobalData) => void;
 }): DataTableColumns<GlobalData> => {
   return [
     {
       title: "#",
       width: 50,
+      key: "",
       render(_, index) {
         return index + 1;
       },
     },
-    { title: "Target", width: 80, key: "target" },
+    { title: "Type", width: 80, key: "type" },
     { title: "Key", key: "key" },
     { title: "Value", ellipsis: { tooltip: true }, key: "value" },
     {
@@ -47,7 +46,7 @@ const createColumns = ({
               size: "small",
               style: "margin-right: 10px",
               type: "primary",
-              onClick: () => play(row),
+              onClick: () => useFn(row),
             },
             { default: () => "使用" }
           ),
@@ -57,7 +56,7 @@ const createColumns = ({
               strong: true,
               size: "small",
               type: "error",
-              onClick: () => play(row),
+              onClick: () => rmFn(row),
             },
             { default: () => "移除" }
           ),
@@ -67,34 +66,20 @@ const createColumns = ({
   ];
 };
 
-const data: GlobalData[] = [
-  {
-    target: "local",
-    key: "token",
-    value: "asdflk;1j231j231j231j231j231j231j23",
-    createAt: Date.now(),
-  },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-  { target: "local", key: "token", value: "asdflk;1j23", createAt: Date.now() },
-];
+const data = ref<GlobalData[]>([]);
+
+onMounted(async () => {
+  const dataMap = await useGlobal.get();
+  data.value = Object.values(dataMap || {});
+});
 
 const columns = createColumns({
-  play(row: GlobalData) {
+  useFn(row: GlobalData) {
     console.log("[debug]row:", row);
+    emit.use(row);
+  },
+  rmFn(row: GlobalData) {
+    useGlobal.remove(row.key);
   },
 });
 </script>

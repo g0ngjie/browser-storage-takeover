@@ -1,19 +1,12 @@
 import { StorageSerializers, useLocalStorage, useSessionStorage, useStorage } from "@vueuse/core";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useOsTheme, darkTheme } from "naive-ui";
 import type { GlobalThemeOverrides } from "naive-ui";
-// import { useChrome } from "@takeover/shared-utils";
+import { NoticeKey } from "@takeover/shared-utils";
 
 export type StorageType = 'local' | 'session'
 
-type TabName = 'global' | 'local'
-export function useTabChange(name: TabName) {
-    // 获取当前页签数据
-    if (name === 'local') {
-        // 查看当前chrome预设 local | session
-        // const currentState = useChrome()
-    }
-}
+export const currentType = ref<StorageType>("local");
 
 // 获取系统主题
 export function useTheme() {
@@ -76,4 +69,56 @@ export function useStorageKeys(type: StorageType = 'local') {
             }
         })
     return keys
+}
+
+export type GlobalData = {
+    type: StorageType;
+    key: string;
+    value: any;
+    createAt?: string;
+};
+
+function sendMsg(
+    key: 'save' | 'get' | 'remove',
+    target?: {
+        value?: GlobalData,
+        id?: string,
+        fn?: (data: { [key: string]: GlobalData }) => void
+    }
+) {
+    window.dispatchEvent(
+        new CustomEvent(NoticeKey.CONTENT_DOCUMENT, {
+            detail: { key, value: target?.value, fn: target?.fn },
+        })
+    );
+}
+
+export const useGlobal = {
+    // 缓存共享实例
+    save(key: GlobalData['key'], value: GlobalData['value']) {
+        sendMsg('save', {
+            value: {
+                key,
+                value,
+                type: currentType.value,
+                createAt: Date.now().toString(),
+            }
+        })
+    },
+    // 获取缓存共享实例
+    get(): Promise<{ [key: string]: GlobalData }> {
+        return new Promise(resolve => {
+            sendMsg('get', {
+                fn: (data) => {
+                    resolve(data)
+                }
+            })
+        })
+    },
+    // 删除共享实例
+    remove(key: GlobalData['key']) {
+        sendMsg('remove', {
+            value: { type: currentType.value, key, value: null }
+        })
+    }
 }

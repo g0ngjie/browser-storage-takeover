@@ -3,7 +3,7 @@ import { NModal, NTabs, NTabPane } from "naive-ui";
 import { NConfigProvider } from "naive-ui";
 import { computed, onMounted, ref } from "vue";
 import { useLocalStorage, useStorage } from "@vueuse/core";
-import { useTabChange, useTheme, useThemeOverrides } from "./hooks";
+import { useTheme, useThemeOverrides } from "./hooks";
 import GlobalData from "./global.vue";
 import LocalData from "./local.vue";
 
@@ -30,7 +30,7 @@ onMounted(() => {
       size="small"
       preset="card"
     >
-      <NTabs size="small" type="line" animated @update:value="useTabChange">
+      <NTabs size="small" type="line" animated>
         <NTabPane name="local" tab="本地"><LocalData /></NTabPane>
         <NTabPane name="global" tab="贮存"><GlobalData /></NTabPane>
       </NTabs>

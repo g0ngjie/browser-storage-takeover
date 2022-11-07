@@ -14,9 +14,10 @@ import {
   useStorageKeys,
   useInitStorage,
   StorageMapping,
+  useGlobal,
+  currentType,
 } from "./hooks";
 
-const currentType = ref<StorageType>("local");
 const defaultValue = ref<StorageType>("local");
 const storageData = ref<StorageMapping>({ local: {}, session: {} });
 // 当前选中key
@@ -38,6 +39,11 @@ const options: { label: string; value: StorageType }[] = [
 
 // 菜单
 const menuOptions = computed(() => useStorageKeys(currentType.value));
+// 存储
+const handleSave = () => {
+  const current = storageData.value[currentType.value][currentKey.value];
+  useGlobal.save(currentKey.value, current);
+};
 
 onMounted(() => {
   storageData.value = useInitStorage();
@@ -53,7 +59,6 @@ onMounted(() => {
       show-trigger="arrow-circle"
       collapse-mode="width"
       :show-collapsed-content="false"
-      :native-scrollbar="false"
     >
       <NSpace vertical>
         <NSelect
@@ -63,12 +68,7 @@ onMounted(() => {
           style="width: 150px"
           :options="options"
         />
-        <NLayout
-          has-sider
-          :native-scrollbar="false"
-          position="absolute"
-          style="top: 40px; bottom: 10px"
-        >
+        <NLayout has-sider position="absolute" style="top: 40px; bottom: 10px">
           <NLayoutSider>
             <NMenu
               :options="menuOptions"
@@ -79,10 +79,12 @@ onMounted(() => {
       </NSpace>
     </NLayoutSider>
     <NLayout>
-      <NLayoutHeader bordered style="padding: 5px; padding-left: 20px">
-        <NButton secondary size="small" type="primary">贮存</NButton>
+      <NLayoutHeader bordered style="padding: 5px; padding-left: 10px">
+        <NButton secondary size="small" type="primary" @click="handleSave"
+          >贮存</NButton
+        >
       </NLayoutHeader>
-      <NLayoutContent content-style="padding: 5px; padding-left: 20px;">
+      <NLayoutContent content-style="padding: 5px; padding-left: 10px;">
         <NInput
           type="textarea"
           v-model:value="showJsonStr"

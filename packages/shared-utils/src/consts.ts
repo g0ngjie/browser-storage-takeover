@@ -1,7 +1,7 @@
 /**storage enums */
 export enum StorageKey {
-  /**主题 */
-  THEME = 'browser-storage-takeover:storage:theme',
+  /**共享实例 */
+  GLOBAL_KEY = 'browser-storage-takeover:storage:global:data',
 }
 
 // 挂载DOM节点
@@ -11,8 +11,6 @@ export const ShellComponentContainer = '__browser-storage-takeover_shell_compone
 export enum Notice {
   /**通知 content */
   TO_CONTENT = 'browser-storage-takeover:notice:content',
-  /**通知 popup */
-  TO_POPUP = 'browser-storage-takeover:notice:popup',
   /**通知 document */
   TO_DOCUMENT = 'browser-storage-takeover:notice:document',
   /**通知 background */
@@ -21,7 +19,7 @@ export enum Notice {
 
 /**通知Key */
 export enum NoticeKey {
-
+  CONTENT_DOCUMENT = "browser-storage-takeover:event:message"
 }
 
 /**主题 */

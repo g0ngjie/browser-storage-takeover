@@ -18,7 +18,6 @@ import {
   currentType,
 } from "./hooks";
 
-const defaultValue = ref<StorageType>("local");
 const storageData = ref<StorageMapping>({ local: {}, session: {} });
 // 当前选中key
 const currentKey = ref("");
@@ -78,7 +77,7 @@ onMounted(() => {
     >
       <NSpace vertical>
         <NSelect
-          v-model:value="defaultValue"
+          v-model:value="currentType"
           @update:value="handleSelect"
           size="small"
           style="width: 150px"

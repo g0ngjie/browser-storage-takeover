@@ -26,7 +26,6 @@ onMounted(() => {
       title="Browser Storage Takeover"
       style="width: 90%; min-height: 500px; margin-top: 10px"
       :maskClosable="false"
-      :close-on-esc="false"
       size="small"
       preset="card"
     >

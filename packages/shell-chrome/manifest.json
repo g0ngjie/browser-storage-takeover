@@ -43,5 +43,16 @@
         "<all_urls>"
       ]
     }
-  ]
+  ],
+  "commands": {
+    "open_modal": {
+      "suggested_key": {
+        "default": "Alt+W",
+        "windows": "Alt+W",
+        "mac": "Alt+W",
+        "linux": "Alt+W"
+      },
+      "description": "Open modal"
+    }
+  }
 }

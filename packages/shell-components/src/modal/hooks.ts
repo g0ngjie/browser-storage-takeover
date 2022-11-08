@@ -94,7 +94,7 @@ export const currentGlobalData = ref<{ [key: string]: GlobalData }>({})
 
 window.addEventListener(NoticeKey.CONTENT_DOCUMENT, function (event) {
     const customEvent = event as CustomEvent
-    if (customEvent.detail.to !== 'document') return
+    if (customEvent.detail.to !== 'modal') return
     const data = customEvent.detail
     currentGlobalData.value = data?.value
 })

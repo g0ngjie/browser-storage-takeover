@@ -13,7 +13,7 @@ module.exports = {
   entry: {
     content: resolve(__dirname, "src/content.ts"),
     document: resolve(__dirname, "src/document.ts"),
-    service_worker: resolve(__dirname, "src/service-worker/index.ts"),
+    service_worker: resolve(__dirname, "src/service-worker.ts"),
   },
   output: {
     path: resolve(__dirname, 'build'),

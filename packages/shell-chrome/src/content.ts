@@ -12,14 +12,6 @@ script.setAttribute("type", "module");
 script.setAttribute("src", chrome.runtime.getURL("document.js"));
 document.documentElement.appendChild(script);
 
-// initStorage().then(() => {
-
-//     script.addEventListener("load", () => {
-
-//     });
-
-// })
-
 const componentContainer = document.createElement('div')
 componentContainer.id = ShellComponentContainer
 
@@ -32,12 +24,20 @@ const components = document.createElement("script");
 components.setAttribute("src", chrome.runtime.getURL("components/index.iife.js"));
 document.documentElement.appendChild(components);
 components.addEventListener('load', () => {
-    console.log("[debug]window.__component__:", window.__component__)
+    // 接收service-worker传来的信息
+    chrome.runtime.onMessage.addListener((msg) => {
+        if (msg.type === NoticeKey.COMMAND_TRIGGERING && msg.to === "content") {
+            window.dispatchEvent(
+                new CustomEvent(NoticeKey.COMMAND_TRIGGERING, {
+                    detail: { to: 'document', value: "open_modal" },
+                })
+            );
+        }
+    });
 })
 
 initStorage().then(() => {
-
-    // 接收lib 传来的信息 转发给 popup
+    // 接收modal 传来的信息
     window.addEventListener(
         NoticeKey.CONTENT_DOCUMENT,
         function (event) {
@@ -53,7 +53,7 @@ initStorage().then(() => {
                 case "get":
                     window.dispatchEvent(
                         new CustomEvent(NoticeKey.CONTENT_DOCUMENT, {
-                            detail: { to: 'document', value: maps },
+                            detail: { to: 'modal', value: maps },
                         })
                     );
                     break;
@@ -62,7 +62,7 @@ initStorage().then(() => {
                     setStorage(StorageKey.GLOBAL_KEY, maps)
                     window.dispatchEvent(
                         new CustomEvent(NoticeKey.CONTENT_DOCUMENT, {
-                            detail: { to: 'document', value: maps },
+                            detail: { to: 'modal', value: maps },
                         })
                     );
                     break;

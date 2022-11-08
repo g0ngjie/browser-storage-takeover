@@ -24,7 +24,7 @@ onMounted(() => {
     <NModal
       v-model:show="showModal"
       title="Browser Storage Takeover"
-      style="width: 90%; min-height: 500px; margin-top: 10px"
+      style="width: 95%; min-height: 600px; margin-top: 20px"
       :maskClosable="false"
       size="small"
       preset="card"

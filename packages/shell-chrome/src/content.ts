@@ -47,7 +47,7 @@ initStorage().then(() => {
             const target = customEvent.detail.value
             switch (customEvent.detail.type) {
                 case "save":
-                    maps[`${target.type}_${target.key}`] = target
+                    maps[`${target.hostname}_${target.type}_${target.key}`] = target
                     setStorage(StorageKey.GLOBAL_KEY, maps)
                     break;
                 case "get":
@@ -58,7 +58,7 @@ initStorage().then(() => {
                     );
                     break;
                 case "remove":
-                    delete maps[`${target.type}_${target.key}`]
+                    delete maps[`${target.hostname}_${target.type}_${target.key}`]
                     setStorage(StorageKey.GLOBAL_KEY, maps)
                     window.dispatchEvent(
                         new CustomEvent(NoticeKey.CONTENT_DOCUMENT, {

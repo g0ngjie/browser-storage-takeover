@@ -76,7 +76,9 @@ export type GlobalData = {
     type: StorageType;
     key: string;
     value: any;
-    createAt?: string;
+    createAt: string;
+    hostname: string;
+    title?: string;
 };
 
 function sendMsg(
@@ -117,6 +119,8 @@ export const useGlobal = {
             value,
             type: currentType.value,
             createAt: Date.now().toString(),
+            hostname: location.hostname,
+            title: document.title
         })
     },
     // 获取缓存共享实例
@@ -125,6 +129,6 @@ export const useGlobal = {
     },
     // 删除共享实例
     remove(key: GlobalData['key']) {
-        sendMsg('remove', { type: currentType.value, key, value: null })
+        sendMsg('remove', { type: currentType.value, key, value: null, hostname: location.hostname, createAt: "" })
     }
 }

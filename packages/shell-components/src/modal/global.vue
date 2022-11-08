@@ -27,6 +27,7 @@ const createColumns = ({
       },
     },
     { title: "Type", width: 80, key: "type" },
+    { title: "Source", width: 200, ellipsis: { tooltip: true }, key: "hostname" },
     { title: "Key", key: "key" },
     { title: "Value", ellipsis: { tooltip: true }, key: "value" },
     {
@@ -73,7 +74,7 @@ const createColumns = ({
 const data = computed(() => {
   useGlobal.get();
   const list = Object.values(currentGlobalData.value || {});
-  return list.sort((a, b) => b.createAt - a.createAt);
+  return list.sort((a, b) => +b.createAt - +a.createAt);
 });
 
 const columns = createColumns({
@@ -88,7 +89,7 @@ const columns = createColumns({
 
 <template>
   <NDataTable
-    :max-height="500"
+    :max-height="600"
     :columns="columns"
     :data="data"
     :bordered="false"

@@ -34,7 +34,7 @@ const createColumns = ({
       key: "createAt",
       width: 150,
       render(row) {
-        return h("span", {}, dayjs(row.createAt).format("YYYY-MM-DD HH:mm"));
+        return h("span", {}, dayjs(+row.createAt).format("YYYY-MM-DD HH:mm"));
       },
     },
     {
@@ -72,7 +72,8 @@ const createColumns = ({
 
 const data = computed(() => {
   useGlobal.get();
-  return Object.values(currentGlobalData.value || {});
+  const list = Object.values(currentGlobalData.value || {});
+  return list.sort((a, b) => b.createAt - a.createAt);
 });
 
 const columns = createColumns({

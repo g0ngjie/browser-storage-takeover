@@ -1,10 +1,10 @@
 import { registerEl } from "./utils/register";
 import Modal from "./modal/index";
-import Test from "./test/index";
+// import Test from "./test/index";
 
 const ComponentMap = {
     modal: Modal,
-    test: Test
+    // test: Test
 }
 
 type ComponentName = keyof typeof ComponentMap

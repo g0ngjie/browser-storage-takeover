@@ -124,7 +124,12 @@ onMounted(() => {
           :show-icon="false"
         >
           <template #trigger>
-            <NButton :disabled="!currentKey" secondary size="small" type="error"
+            <NButton
+              style="margin-left: 10px"
+              :disabled="!currentKey"
+              secondary
+              size="small"
+              type="error"
               >移除</NButton
             >
           </template>

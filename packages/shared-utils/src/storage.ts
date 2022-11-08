@@ -1,5 +1,6 @@
 import { StorageKey } from './consts'
-import { useStorage } from './env'
+
+const useStorage = typeof chrome !== 'undefined' && typeof chrome.storage !== 'undefined'
 
 // chrome.storage.sync.set 大于8,192字节的数据时，会报错 -> QUOTA_BYTES_PER_ITEM quota exceeded
 // chrome.storage.local.set可以包含5242880

@@ -8,9 +8,9 @@ const readDirGlob = require('readdir-glob')
 const PKG = require('./package.json')
 
 const INCLUDE_GLOBS = [
+  'components/**',
   'icons/**',
   'render_devtools/**',
-  'shell-devtools/**',
   'content.js',
   'document.js',
   'manifest.json',

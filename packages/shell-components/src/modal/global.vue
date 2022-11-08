@@ -82,7 +82,7 @@ const columns = createColumns({
     replaceCurrentKV(row);
   },
   rmFn(row: GlobalData) {
-    useGlobal.remove(row.key);
+    useGlobal.remove(row);
   },
 });
 </script>

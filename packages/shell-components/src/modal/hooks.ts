@@ -131,7 +131,13 @@ export const useGlobal = {
         sendMsg('get')
     },
     // 删除共享实例
-    remove(key: GlobalData['key']) {
-        sendMsg('remove', { type: currentType.value, key, value: null, hostname: location.hostname, createAt: "" })
+    remove(data: GlobalData) {
+        sendMsg('remove', {
+            type: data.type,
+            key: data.key,
+            value: null,
+            hostname: data.hostname,
+            createAt: ""
+        })
     }
 }

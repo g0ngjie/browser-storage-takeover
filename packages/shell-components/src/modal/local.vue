@@ -37,7 +37,7 @@ const options: { label: string; value: StorageType }[] = [
 ];
 
 // 菜单
-const menuOptions = ref(useStorageKeys(currentType.value));
+const menuOptions = computed(() => useStorageKeys(currentType.value));
 
 const btn = reactive({
   txt: "贮存",
@@ -61,16 +61,15 @@ const handleSave = () => {
 // 切换源
 const handleSelect = (value: StorageType) => {
   currentType.value = value;
-  showJsonStr.value = "";
 };
 
 // 删除当前环境 K/V
 const handleRmConfirm = () => {
   storageData.value[currentType.value][currentKey.value] = null;
-  // 删除对应菜单数据
-  menuOptions.value = menuOptions.value.filter(
-    (target) => target.key !== currentKey.value
-  );
+  // FIXME: 删除对应菜单数据
+  // menuOptions.value = menuOptions.value.filter(
+  //   (target) => target.key !== currentKey.value
+  // );
 };
 
 onMounted(() => {

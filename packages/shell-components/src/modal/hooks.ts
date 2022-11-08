@@ -104,10 +104,13 @@ window.addEventListener(NoticeKey.CONTENT_DOCUMENT, function (event) {
 // 替换current 数据
 export function replaceCurrentKV(data: GlobalData) {
     // 获取共享数据
-    const getGlobalData = currentGlobalData.value[`${currentType.value}_${data.key}`]
-    if (getGlobalData.value) {
+    const getGlobalData = currentGlobalData.value[`${location.hostname}_${currentType.value}_${data.key}`]
+    if (getGlobalData?.value) {
         const state = useStorage(data.key, getGlobalData.value, typeMapping[currentType.value])
         state.value = getGlobalData.value
+    } else {
+        const state = useStorage(data.key, data.value, typeMapping[currentType.value])
+        state.value = data.value
     }
 }
 

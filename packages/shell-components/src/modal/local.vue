@@ -8,7 +8,7 @@ import {
   NMenu,
 } from "naive-ui";
 import { NSelect, NButton, NInput } from "naive-ui";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import {
   StorageType,
   useStorageKeys,
@@ -39,18 +39,22 @@ const options: { label: string; value: StorageType }[] = [
 // 菜单
 const menuOptions = computed(() => useStorageKeys(currentType.value));
 
-const btnTxt = ref("贮存");
-const btnLoading = ref(false);
+const btn = reactive({
+  txt: "贮存",
+  loading: false,
+});
+
 // 存储
 const handleSave = () => {
   if (!currentKey.value) return;
   const current = storageData.value[currentType.value][currentKey.value];
   useGlobal.save(currentKey.value, current);
-  btnTxt.value = "Ok !";
-  btnLoading.value = true;
+
+  btn.txt = "Ok !";
+  btn.loading = true;
   setTimeout(() => {
-    btnTxt.value = "贮存";
-    btnLoading.value = false;
+    btn.txt = "贮存";
+    btn.loading = false;
   }, 500);
 };
 
@@ -96,13 +100,13 @@ onMounted(() => {
     <NLayout>
       <NLayoutHeader bordered style="padding: 5px; padding-left: 10px">
         <NButton
-          :loading="btnLoading"
+          :loading="btn.loading"
           :disabled="!currentKey"
           secondary
           size="small"
           type="primary"
           @click="handleSave"
-          >{{ btnTxt }}</NButton
+          >{{ btn.txt }}</NButton
         >
       </NLayoutHeader>
       <NLayoutContent content-style="padding: 5px; padding-left: 10px;">

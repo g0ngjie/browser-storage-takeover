@@ -7,7 +7,7 @@ import {
   NSpace,
   NMenu,
 } from "naive-ui";
-import { NSelect, NButton, NInput } from "naive-ui";
+import { NSelect, NButton, NInput, NPopconfirm } from "naive-ui";
 import { computed, onMounted, reactive, ref } from "vue";
 import {
   StorageType,
@@ -37,7 +37,7 @@ const options: { label: string; value: StorageType }[] = [
 ];
 
 // 菜单
-const menuOptions = computed(() => useStorageKeys(currentType.value));
+const menuOptions = ref(useStorageKeys(currentType.value));
 
 const btn = reactive({
   txt: "贮存",
@@ -62,6 +62,15 @@ const handleSave = () => {
 const handleSelect = (value: StorageType) => {
   currentType.value = value;
   showJsonStr.value = "";
+};
+
+// 删除当前环境 K/V
+const handleRmConfirm = () => {
+  storageData.value[currentType.value][currentKey.value] = null;
+  // 删除对应菜单数据
+  menuOptions.value = menuOptions.value.filter(
+    (target) => target.key !== currentKey.value
+  );
 };
 
 onMounted(() => {
@@ -108,6 +117,19 @@ onMounted(() => {
           @click="handleSave"
           >{{ btn.txt }}</NButton
         >
+        <NPopconfirm
+          :negative-text="null"
+          @positive-click="handleRmConfirm"
+          positive-text="确认"
+          :show-icon="false"
+        >
+          <template #trigger>
+            <NButton :disabled="!currentKey" secondary size="small" type="error"
+              >移除</NButton
+            >
+          </template>
+          确认删除当前变量
+        </NPopconfirm>
       </NLayoutHeader>
       <NLayoutContent content-style="padding: 5px; padding-left: 10px;">
         <NInput

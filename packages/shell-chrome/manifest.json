@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Takeover browser storage",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "浏览器扩展: Storage 存储操作面板",
   "author": "Gj",
   "content_scripts": [

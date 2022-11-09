@@ -26,9 +26,14 @@ const createColumns = ({
         return index + 1;
       },
     },
+    {
+      title: "Source",
+      width: 320,
+      ellipsis: { tooltip: true },
+      key: "hostname",
+    },
     { title: "Type", width: 80, key: "type" },
-    { title: "Source", width: 200, ellipsis: { tooltip: true }, key: "hostname" },
-    { title: "Key", key: "key" },
+    { title: "Key", width: 200, ellipsis: { tooltip: true }, key: "key" },
     { title: "Value", ellipsis: { tooltip: true }, key: "value" },
     {
       title: "CreateAt",

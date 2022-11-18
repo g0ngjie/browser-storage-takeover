@@ -1,0 +1,6 @@
+{
+  "name": "OhMyDocker",
+  "dockerFile": "./Dockerfile",
+  "features": {
+  }
+}

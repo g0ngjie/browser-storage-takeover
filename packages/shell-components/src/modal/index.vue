@@ -28,6 +28,7 @@ onMounted(() => {
       :maskClosable="false"
       size="small"
       preset="card"
+      :zIndex="999999"
     >
       <NTabs size="small" type="line" animated>
         <NTabPane name="local" tab="本地"><LocalData /></NTabPane>

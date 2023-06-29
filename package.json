@@ -1,6 +1,6 @@
 {
   "name": "browser-storage-takeover",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "scripts": {
     "dev": "pnpm -C ./packages/shell-components dev",
